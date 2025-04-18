@@ -1,0 +1,6 @@
+sender receipter amount
+A B 100
+C D 250
+B E 75
+F A 50
+D C 120
