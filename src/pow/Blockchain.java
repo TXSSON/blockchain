@@ -3,11 +3,14 @@ package pow;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Blockchain {
+public class Blockchain implements Cloneable {
     private List<Block> chain;
     public Blockchain() {
         chain = new ArrayList<>();
         chain.add(createGenesisBlock());
+    }
+    private Blockchain(List<Block> chain) {
+        this.chain = chain;
     }
     private Block createGenesisBlock() {
         Transaction genesisTransaction = new Transaction("Son", "Cuong", "500");
@@ -17,29 +20,31 @@ public class Blockchain {
     public Block getLatestBlock() {
         return chain.get(chain.size() - 1);
     }
-
-    public void addBlock(Block newBlock) {
-        if (isValidNewBlock(newBlock, getLatestBlock())) {
+    public void addBlock(Block newBlock, String name) {
             chain.add(newBlock);
-            System.out.println("Thêm khối block" + newBlock.getIndex() + "thành công");
-        }else {
-            System.out.println("Thêm khối block mới không thành công");
-        }
     }
-    private boolean isValidNewBlock(Block newBlock, Block previousBlock) {
-        return previousBlock.getIndex() + 1 == newBlock.getIndex() &&
-                previousBlock.getHash().equals(newBlock.getPreviousHash()) &&
+    public boolean isValidNewBlock(Block newBlock, String name) {
+        Block lastestBlock = this.getLatestBlock();
+        return lastestBlock.getIndex() + 1 == newBlock.getIndex() &&
+                lastestBlock.getPreviousHash().equals(newBlock.getPreviousHash()) &&
                 newBlock.getHash().equals(newBlock.calculateHash());
     }
-
     public List<Block> getChain() {
         return chain;
     }
-
     @Override
+    public Blockchain clone() throws CloneNotSupportedException {
+        return new Blockchain(new ArrayList<>(this.chain));
+    }
     public String toString() {
-        return "Blockchain{" +
-                "chain=" + chain +
-                '}';
+        StringBuilder result = new StringBuilder("[");
+        for (int i = 0; i < chain.size(); i++) {
+            result.append(chain.get(i).getIndex());
+            if (i < chain.size() - 1) {
+                result.append(", ");
+            }
+        }
+        result.append("]");
+        return result.toString();
     }
 }
