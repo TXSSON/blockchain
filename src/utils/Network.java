@@ -20,7 +20,7 @@ public class Network {
     private static Blockchain blockchain =  new Blockchain();
     // Danh sách các fullNode trong mạng
     private static List<FullNode> nodes;
-
+    // Danh sách các giao dịch trong mempool
     static {
         try {
             nodes = initNode();
@@ -28,10 +28,8 @@ public class Network {
             throw new RuntimeException(e);
         }
     }
-    // Danh sách các giao dịch trong mempool
     private static List<Transaction> mempool =  initMempool();
     private static List<Miner> miners;
-
     static {
         try {
             miners = initMiner();
@@ -42,10 +40,10 @@ public class Network {
 
     public static List<Miner> initMiner() throws CloneNotSupportedException, FileNotFoundException {
         List<Miner> miners = new ArrayList<>();
-        miners.add(new Miner("Miner 1",blockchain.clone(), new PrintStream(new FileOutputStream("/dev/pts/21"))));
-        miners.add(new Miner("Miner 2",blockchain.clone(), new PrintStream(new FileOutputStream("/dev/pts/24"))));
-        miners.add(new Miner("Miner 3",blockchain.clone(), new PrintStream(new FileOutputStream("/dev/pts/25"))));
-        miners.add(new Miner("Miner 4",blockchain.clone(), new PrintStream(new FileOutputStream("/dev/pts/26"))));
+        miners.add(new Miner("Miner 1",blockchain.clone(), new PrintStream(new FileOutputStream("/dev/pts/1"))));
+        miners.add(new Miner("Miner 2",blockchain.clone(), new PrintStream(new FileOutputStream("/dev/pts/2"))));
+        miners.add(new Miner("Miner 3",blockchain.clone(), new PrintStream(new FileOutputStream("/dev/pts/3"))));
+        miners.add(new Miner("Miner 4",blockchain.clone(), new PrintStream(new FileOutputStream("/dev/pts/4"))));
         for (Miner miner : miners) {
             miner.term.println("\033[H\033[2J");
             miner.term.printName( miner.getName());
@@ -56,12 +54,12 @@ public class Network {
     private static List<FullNode> initNode() throws CloneNotSupportedException, FileNotFoundException {
         List<FullNode> nodes = new ArrayList<>();
 
-        nodes.add(new FullNode("FullNode A", blockchain.clone(), new PrintStream(new FileOutputStream("/dev/pts/27"))));
-        nodes.add(new FullNode("FullNode B", blockchain.clone(), new PrintStream(new FileOutputStream("/dev/pts/28"))));
-        nodes.add(new FullNode("FullNode C", blockchain.clone(), new PrintStream(new FileOutputStream("/dev/pts/29"))));
-        nodes.add(new FullNode("FullNode D", blockchain.clone(), new PrintStream(new FileOutputStream("/dev/pts/30"))));
-        nodes.add(new FullNode("FullNode E", blockchain.clone(), new PrintStream(new FileOutputStream("/dev/pts/31"))));
-        nodes.add(new FullNode("FullNode F", blockchain.clone(), new PrintStream(new FileOutputStream("/dev/pts/32"))));
+        nodes.add(new FullNode("Node A", blockchain.clone(), new PrintStream(new FileOutputStream("/dev/pts/5"))));
+        nodes.add(new FullNode("Node B", blockchain.clone(), new PrintStream(new FileOutputStream("/dev/pts/6"))));
+        nodes.add(new FullNode("Node C", blockchain.clone(), new PrintStream(new FileOutputStream("/dev/pts/7"))));
+        nodes.add(new FullNode("Node D", blockchain.clone(), new PrintStream(new FileOutputStream("/dev/pts/8"))));
+        nodes.add(new FullNode("Node E", blockchain.clone(), new PrintStream(new FileOutputStream("/dev/pts/9"))));
+        nodes.add(new FullNode("Node F", blockchain.clone(), new PrintStream(new FileOutputStream("/dev/pts/10"))));
         for (FullNode node : nodes) {
             node.term.println("\033[H\033[2J");
             node.term.printName(node.getName());
@@ -100,7 +98,18 @@ public class Network {
         nD.addNeighbor(List.of(m2, m4, nB, nF));
         nE.addNeighbor(List.of(m2, m3, nC, nF));
         nF.addNeighbor(List.of(m3, m4, nD, nE));
+
+        m1.setMinerPick(0);
+        m1.term.selectedTransaction(0);
+        m2.setMinerPick(1);
+        m2.term.selectedTransaction(1);
+        m3.setMinerPick(2);
+        m3.term.selectedTransaction(2);
+        m4.setMinerPick(3);
+        m4.term.selectedTransaction(3);
+
     }
+
     private static List<Transaction> initMempool() {
         return FileReaderUtil.readFile("/home/son/Documents/code-java/blockchain/src/utils/mempool.txt", Transaction.class, String.class, String.class, String.class);
     }

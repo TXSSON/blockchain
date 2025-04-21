@@ -34,27 +34,15 @@ public class Miner extends FullNode {
             newBlock.setNonce(newBlock.getNonce() + 1);  // Tăng nonce để thử lại
         }
         Thread.sleep(100);
-        this.term.nonceFound(newBlock.getNonce(), newBlock.getDifficulty());
-        super.receiveNewBlock(newBlock, this);
+        this.term.nonceFound(newBlock.getNonce(), newBlock.getDifficulty());super.receiveNewBlock(newBlock, this);
+    }
+    public void setMinerPick(int index) {
+        this.minerPick = Network.getMempool().get(index);
     }
 
     private boolean isValidHash(Block block) {
         String prefix = "0".repeat(Network.getDifficulty());
         return block.getHash().startsWith(prefix);
-    }
-
-
-    public void assignRandomTransactionToMiners() throws InterruptedException {
-        Random rand = new Random();
-        if (Network.getMempool().isEmpty()) {
-            System.out.println("Hết giao dịch trong mempool");
-            return;
-        }
-        int randomIndex = rand.nextInt(Network.getMempool().size());
-        this.minerPick = Network.getMempool().get(randomIndex);
-        this.term.selectedTransaction(Integer.toString(randomIndex));
-        Thread.sleep(500);
-        this.mineBlock();
     }
 
 }
