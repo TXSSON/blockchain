@@ -42,8 +42,8 @@ public class Network {
         List<Miner> miners = new ArrayList<>();
         miners.add(new Miner("Miner 1",blockchain.clone(), new PrintStream(new FileOutputStream("/dev/pts/1"))));
         miners.add(new Miner("Miner 2",blockchain.clone(), new PrintStream(new FileOutputStream("/dev/pts/2"))));
-        miners.add(new Miner("Miner 3",blockchain.clone(), new PrintStream(new FileOutputStream("/dev/pts/3"))));
-        miners.add(new Miner("Miner 4",blockchain.clone(), new PrintStream(new FileOutputStream("/dev/pts/4"))));
+        miners.add(new Miner("Miner 3",blockchain.clone(), new PrintStream(new FileOutputStream("/dev/pts/6"))));
+        miners.add(new Miner("Miner 4",blockchain.clone(), new PrintStream(new FileOutputStream("/dev/pts/7"))));
         for (Miner miner : miners) {
             miner.term.println("\033[H\033[2J");
             miner.term.printName( miner.getName());
@@ -54,9 +54,9 @@ public class Network {
     private static List<FullNode> initNode() throws CloneNotSupportedException, FileNotFoundException {
         List<FullNode> nodes = new ArrayList<>();
 
-        nodes.add(new FullNode("Node A", blockchain.clone(), new PrintStream(new FileOutputStream("/dev/pts/5"))));
-        nodes.add(new FullNode("Node B", blockchain.clone(), new PrintStream(new FileOutputStream("/dev/pts/6"))));
-        nodes.add(new FullNode("Node C", blockchain.clone(), new PrintStream(new FileOutputStream("/dev/pts/7"))));
+        nodes.add(new FullNode("Node A", blockchain.clone(), new PrintStream(new FileOutputStream("/dev/pts/3"))));
+        nodes.add(new FullNode("Node B", blockchain.clone(), new PrintStream(new FileOutputStream("/dev/pts/4"))));
+        nodes.add(new FullNode("Node C", blockchain.clone(), new PrintStream(new FileOutputStream("/dev/pts/5"))));
         nodes.add(new FullNode("Node D", blockchain.clone(), new PrintStream(new FileOutputStream("/dev/pts/8"))));
         nodes.add(new FullNode("Node E", blockchain.clone(), new PrintStream(new FileOutputStream("/dev/pts/9"))));
         nodes.add(new FullNode("Node F", blockchain.clone(), new PrintStream(new FileOutputStream("/dev/pts/10"))));
